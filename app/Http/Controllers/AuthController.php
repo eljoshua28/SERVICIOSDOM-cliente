@@ -21,32 +21,23 @@ class AuthController extends Controller
         'password' => 'required'
     ]);
 
-    $response = Http::get('https://serviciosdom-api-production.up.railway.app/api/usuarios');
-    $usuarios = $response->json();
+    $response = Http::post('https://serviciosdom-api-production.up.railway.app/api/login', [
+        'correo' => $request->correo,
+        'password' => $request->password
+    ]);
 
-    $usuario = collect($usuarios)->firstWhere('correo', $request->correo);
-
-    if (!$usuario) {
+    if (!$response->successful()) {
         return back()->withErrors(['correo' => 'Credenciales incorrectas.']);
     }
 
-    $passwordValido = false;
-    try {
-        $passwordValido = Hash::check($request->password, $usuario['password']);
-    } catch (\Exception $e) {
-        $passwordValido = ($request->password === $usuario['password']);
-    }
-
-    if (!$passwordValido) {
-        return back()->withErrors(['correo' => 'Credenciales incorrectas.']);
-    }
+    $usuario = $response->json();
 
     session(['usuario' => (object)[
         'id_usuario' => $usuario['id_usuario'],
         'nombre' => $usuario['nombre'],
         'correo' => $usuario['correo'],
         'telefono' => $usuario['telefono'] ?? null,
-        'password' => $usuario['password']
+        'password' => $usuario['password'] ?? ''
     ]]);
 
     return redirect('/catalogo');
