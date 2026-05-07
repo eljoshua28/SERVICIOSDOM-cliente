@@ -14,54 +14,29 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-  public function login(Request $request)
-{
-    $request->validate([
-        'correo' => 'required|email',
-        'password' => 'required'
-    ]);
-
-    $response = Http::post('https://serviciosdom-api-production.up.railway.app/api/login', [
-        'correo' => $request->correo,
-        'password' => $request->password
-    ]);
-
-    if (!$response->successful()) {
-        return back()->withErrors(['correo' => 'Credenciales incorrectas.']);
+    public function showRegistro()
+    {
+        return view('auth.registro');
     }
 
-    $usuario = $response->json();
+    public function login(Request $request)
+    {
+        $request->validate([
+            'correo' => 'required|email',
+            'password' => 'required'
+        ]);
 
-    session(['usuario' => (object)[
-        'id_usuario' => $usuario['id_usuario'],
-        'nombre' => $usuario['nombre'],
-        'correo' => $usuario['correo'],
-        'telefono' => $usuario['telefono'] ?? null,
-        'password' => $usuario['password'] ?? ''
-    ]]);
+        $response = Http::post('https://serviciosdom-api-production.up.railway.app/api/login', [
+            'correo' => $request->correo,
+            'password' => $request->password
+        ]);
 
-    return redirect('/catalogo');
-}
+        if (!$response->successful()) {
+            return back()->withErrors(['correo' => 'Credenciales incorrectas.']);
+        }
 
-
-public function registro(Request $request)
-{
-    $request->validate([
-        'nombre' => 'required',
-        'correo' => 'required|email',
-        'password' => 'required|min:6',
-        'telefono' => 'nullable'
-    ]);
-
-    $response = Http::post('https://serviciosdom-api-production.up.railway.app/api/usuarios', [
-        'nombre' => $request->nombre,
-        'correo' => $request->correo,
-        'password' => bcrypt($request->password),
-        'telefono' => $request->telefono
-    ]);
-
-    if ($response->successful()) {
         $usuario = $response->json();
+
         session(['usuario' => (object)[
             'id_usuario' => $usuario['id_usuario'],
             'nombre' => $usuario['nombre'],
@@ -69,10 +44,44 @@ public function registro(Request $request)
             'telefono' => $usuario['telefono'] ?? null,
             'password' => $usuario['password'] ?? ''
         ]]);
+
         return redirect('/catalogo');
     }
 
-    return back()->withErrors(['correo' => 'Error al registrarse. El correo puede estar en uso.']);
-}
+    public function logout()
+    {
+        session()->forget('usuario');
+        return redirect('/login');
+    }
 
+    public function registro(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required',
+            'correo' => 'required|email',
+            'password' => 'required|min:6',
+            'telefono' => 'nullable'
+        ]);
+
+        $response = Http::post('https://serviciosdom-api-production.up.railway.app/api/usuarios', [
+            'nombre' => $request->nombre,
+            'correo' => $request->correo,
+            'password' => bcrypt($request->password),
+            'telefono' => $request->telefono
+        ]);
+
+        if ($response->successful()) {
+            $usuario = $response->json();
+            session(['usuario' => (object)[
+                'id_usuario' => $usuario['id_usuario'],
+                'nombre' => $usuario['nombre'],
+                'correo' => $usuario['correo'],
+                'telefono' => $usuario['telefono'] ?? null,
+                'password' => $usuario['password'] ?? ''
+            ]]);
+            return redirect('/catalogo');
+        }
+
+        return back()->withErrors(['correo' => 'Error al registrarse. El correo puede estar en uso.']);
+    }
 }
