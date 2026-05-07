@@ -12,7 +12,7 @@ class PagoController extends Controller
     public function checkout($id)
     {
         $usuario = session('usuario');
-        $response = Http::get("http://127.0.0.1:8000/api/solicitudes/{$id}");
+        $response = Http::get("https://serviciosdom-api-production.up.railway.app/api/solicitudes/{$id}");
         $pedido = $response->json();
 
         return view('pago', compact('pedido'));
@@ -21,7 +21,7 @@ class PagoController extends Controller
     public function procesar(Request $request, $id)
     {
         $usuario = session('usuario');
-        $response = Http::get("http://127.0.0.1:8000/api/solicitudes/{$id}");
+        $response = Http::get("https://serviciosdom-api-production.up.railway.app/api/solicitudes/{$id}");
         $pedido = $response->json();
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -42,7 +42,7 @@ class PagoController extends Controller
             ]);
 
             // Guardar número de transacción en la API
-            Http::put("http://127.0.0.1:8000/api/solicitudes/{$id}", [
+            Http::put("https://serviciosdom-api-production.up.railway.app/api/solicitudes/{$id}", [
                 'numero_transaccion' => $paymentIntent->id,
                 'estado' => 'en_proceso'
             ]);
@@ -56,7 +56,7 @@ class PagoController extends Controller
 
     public function exito($id)
     {
-        $response = Http::get("http://127.0.0.1:8000/api/solicitudes/{$id}");
+        $response = Http::get("https://serviciosdom-api-production.up.railway.app/api/solicitudes/{$id}");
         $pedido = $response->json();
         return view('pago-exito', compact('pedido'));
     }

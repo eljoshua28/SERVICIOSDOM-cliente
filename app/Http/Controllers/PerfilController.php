@@ -23,7 +23,7 @@ class PerfilController extends Controller
             'telefono' => 'nullable'
         ]);
 
-        $response = Http::put("http://127.0.0.1:8000/api/usuarios/{$usuario->id_usuario}", [
+        $response = Http::put("https://serviciosdom-api-production.up.railway.app/api/usuarios/{$usuario->id_usuario}", [
             'nombre' => $request->nombre,
             'correo' => $request->correo,
             'telefono' => $request->telefono
@@ -52,7 +52,7 @@ class PerfilController extends Controller
             return back()->withErrors(['password_actual' => 'Contraseña actual incorrecta.']);
         }
 
-        Http::put("http://127.0.0.1:8000/api/usuarios/{$usuario->id_usuario}", [
+        Http::put("https://serviciosdom-api-production.up.railway.app/api/usuarios/{$usuario->id_usuario}", [
             'nombre' => $usuario->nombre,
             'correo' => $usuario->correo,
             'telefono' => $usuario->telefono,

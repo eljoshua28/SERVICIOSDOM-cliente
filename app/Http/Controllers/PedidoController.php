@@ -19,7 +19,7 @@ class PedidoController extends Controller
     $primerServicio = $carrito[0];
     $total = $request->costo_total ?? collect($carrito)->sum('costo_base');
 
-    $response = Http::post('http://127.0.0.1:8000/api/solicitudes', [
+    $response = Http::post('https://serviciosdom-api-production.up.railway.app/api/solicitudes', [
         'id_usuario' => $usuario->id_usuario,
         'id_servicio' => $primerServicio['id_servicio'],
         'id_zona' => $request->id_zona,
@@ -32,7 +32,7 @@ class PedidoController extends Controller
         $solicitud = $response->json();
 
         foreach ($carrito as $item) {
-            Http::post('http://127.0.0.1:8000/api/detalles_pedidos', [
+            Http::post('https://serviciosdom-api-production.up.railway.app/api/detalles_pedidos', [
                 'id_solicitud' => $solicitud['id_solicitud'],
                 'id_servicio' => $item['id_servicio'],
                 'cantidad' => 1,
@@ -51,7 +51,7 @@ class PedidoController extends Controller
     public function misPedidos()
     {
         $usuario = session('usuario');
-        $response = Http::get("http://127.0.0.1:8000/api/usuarios/{$usuario->id_usuario}/solicitudes");
+        $response = Http::get("https://serviciosdom-api-production.up.railway.app/api/usuarios/{$usuario->id_usuario}/solicitudes");
         $pedidos = $response->json() ?? [];
 
         return view('mis-pedidos', compact('pedidos'));
@@ -59,7 +59,7 @@ class PedidoController extends Controller
 
     public function cancelar($id)
 {
-    Http::put("http://127.0.0.1:8000/api/solicitudes/{$id}/cancelar");
+    Http::put("https://serviciosdom-api-production.up.railway.app/api/solicitudes/{$id}/cancelar");
     return redirect()->route('mis.pedidos')->with('success', 'Pedido cancelado.');
 }
 

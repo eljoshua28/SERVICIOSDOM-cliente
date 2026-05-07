@@ -114,7 +114,7 @@ function verDetalles(idSolicitud) {
     document.getElementById('modalDetalles').classList.remove('hidden');
     document.getElementById('contenidoDetalles').innerHTML = '<p class="text-gray-500 text-center">Cargando...</p>';
 
-    fetch(`http://127.0.0.1:8000/api/solicitudes/${idSolicitud}/detalles`)
+    fetch(`https://serviciosdom-api-production.up.railway.app/api/solicitudes/${idSolicitud}/detalles`)
         .then(res => res.json())
         .then(data => {
             let html = '';

@@ -11,7 +11,7 @@
 
     {{-- IMAGEN PREVIEW --}}
     @if(!empty($s['imagen1']))
-    <img src="http://127.0.0.1:8000/storage/{{ $s['imagen1'] }}"
+    <img src="https://serviciosdom-api-production.up.railway.app/storage/{{ $s['imagen1'] }}"
         alt="{{ $s['nombre'] }}"
         class="w-full h-56 object-cover">
     @else

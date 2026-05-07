@@ -61,7 +61,7 @@ public function registro(Request $request)
         'telefono' => 'nullable'
     ]);
 
-    $response = Http::post('http://127.0.0.1:8000/api/usuarios', [
+    $response = Http::post('https://serviciosdom-api-production.up.railway.app/api/usuarios', [
         'nombre' => $request->nombre,
         'correo' => $request->correo,
         'password' => bcrypt($request->password),

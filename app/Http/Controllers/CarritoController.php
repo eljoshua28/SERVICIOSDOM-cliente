@@ -9,7 +9,7 @@ class CarritoController extends Controller
 {
     public function catalogo()
     {
-        $response = Http::get('http://127.0.0.1:8000/api/servicios');
+        $response = Http::get('https://serviciosdom-api-production.up.railway.app/api/servicios');
         $servicios = $response->json();
 
         return view('catalogo', compact('servicios'));
@@ -35,7 +35,7 @@ class CarritoController extends Controller
     public function verCarrito()
 {
     $carrito = session('carrito', []);
-    $response = Http::get('http://127.0.0.1:8000/api/zonas');
+    $response = Http::get('https://serviciosdom-api-production.up.railway.app/api/zonas');
     $zonas = $response->json() ?? [];
     return view('carrito', compact('carrito', 'zonas'));
 }
@@ -49,7 +49,7 @@ class CarritoController extends Controller
 
     public function detalle($id)
 {
-    $response = Http::get("http://127.0.0.1:8000/api/servicios/{$id}");
+    $response = Http::get("https://serviciosdom-api-production.up.railway.app/api/servicios/{$id}");
     $servicio = $response->json();
     return view('detalle-servicio', compact('servicio'));
 }

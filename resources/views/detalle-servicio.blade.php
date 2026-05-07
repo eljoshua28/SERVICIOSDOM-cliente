@@ -17,7 +17,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             @foreach(['imagen1', 'imagen2', 'imagen3'] as $img)
                 @if(!empty($servicio[$img]))
-                <img src="http://127.0.0.1:8000/storage/{{ $servicio[$img] }}"
+                <img src="https://serviciosdom-api-production.up.railway.app/storage/{{ $servicio[$img] }}"
                     alt="Imagen del servicio"
                     class="w-full h-48 object-cover rounded-lg border">
                 @endif

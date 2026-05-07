@@ -28,7 +28,7 @@
             <td class="px-4 py-3">
                 <div class="flex items-center gap-3">
                     @if(!empty($item['imagen1']))
-                    <img src="http://127.0.0.1:8000/storage/{{ $item['imagen1'] }}"
+                    <img src="https://serviciosdom-api-production.up.railway.app/storage/{{ $item['imagen1'] }}"
                         class="w-10 h-10 object-cover rounded flex-shrink-0">
                     @else
                     <div class="w-10 h-10 bg-gray-200 rounded flex-shrink-0"></div>
