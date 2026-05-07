@@ -13,7 +13,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/registro', [AuthController::class, 'showRegistro'])->name('registro');
 Route::post('/registro', [AuthController::class, 'registro']);
 
-
+Route::get('/', function () {
+    return redirect('/login');
+});
 Route::middleware('auth.cliente')->group(function () {
     Route::get('/catalogo', [CarritoController::class, 'catalogo'])->name('catalogo');
     Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
